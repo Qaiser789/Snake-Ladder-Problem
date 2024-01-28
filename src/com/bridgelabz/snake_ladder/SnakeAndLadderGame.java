@@ -3,6 +3,7 @@ package com.bridgelabz.snake_ladder;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Scanner;
+import java.util.Random;
 
 public class SnakeAndLadderGame {
 
@@ -38,3 +39,28 @@ public class SnakeAndLadderGame {
             System.out.println("You rolled a " + diceRoll);
 
             playerPosition = calculateNewPosition(playerPosition, diceRoll);
+
+            if (snakesAndLadders.containsKey(playerPosition)) {
+                int newPosition = snakesAndLadders.get(playerPosition);
+                System.out.println("Oops! You encountered a snake or ladder. Moving to position " + newPosition);
+                playerPosition = newPosition;
+            }
+
+            if (playerPosition == WINNING_POSITION) {
+                System.out.println("Congratulations! You reached the winning position!");
+            }
+        }
+
+        scanner.close();
+    }
+
+    private static int rollDice() {
+        Random random = new Random();
+        return random.nextInt(6) + 1; // Generates a random number between 1 and 6
+    }
+
+    private static int calculateNewPosition(int currentPosition, int diceRoll) {
+        int newPosition = currentPosition + diceRoll;
+        return Math.min(newPosition, WINNING_POSITION); // Ensure the player doesn't move beyond the winning position
+    }
+}
